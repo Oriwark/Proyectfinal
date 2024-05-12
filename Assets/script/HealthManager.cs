@@ -1,41 +1,40 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class HealthManager : MonoBehaviour
 {
-    public int playerHealth = 2;
+    [SerializeField] private float vida;
+    public event EventHandler OnTakeDamage;
+    private Animator animator;
+    public event EventHandler MuerteJugador;
+    private Rigidbody2D rigidbody2;
 
-    public int enemyDamage = 1;
-
-    Rigidbody personajeRb;
-    public static bool playerDead;
-    
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        personajeRb = GetComponent<Rigidbody>();
+        animator = GetComponent<Animator>();
+        rigidbody2 = GetComponent<Rigidbody2D>();
     }
-    private void OnTriggerEnter2D(Collider2D other)
+
+    public void TomarDaño(float daño)
     {
-        if (other.tag == "Enemy")
+        vida -= daño;
+        if (vida > 0)
         {
-            playerHealth -=enemyDamage;
-            if (playerHealth > 1)
-            {
-                personajeRb.velocity = new Vector2(-1, 3);
-            }
-            else if(playerHealth <= 1)
-            {
-             playerDead = true;
-                Destroy(gameObject, 1f);
-            
-             }
+            rigidbody2.constraints = RigidbodyConstraints2D.FreezeAll;
+            animator.SetTrigger("Death");
+            Physics2D.IgnoreLayerCollision(7, 8, true);
         }
     }
-    // Update is called once per frame
-    void Update()
+    public void Destruir()
     {
-        
+        Destroy(gameObject);
+    }
+
+    public void MuerteJugadorEvento()
+    {
+        MuerteJugador?.Invoke(this, EventArgs.Empty);
     }
 }
+

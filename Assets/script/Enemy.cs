@@ -37,4 +37,12 @@ public class Enemy : MonoBehaviour
         transform.eulerAngles = new Vector3(0, transform.eulerAngles.y + 180, 0);
         velocidad *= -1;
     }
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+     if (other.gameObject.CompareTag("Player"))
+        {
+            other.gameObject.GetComponent<HealthManager>().TomarDaño(5);
+        }   
+    }
+
 }
