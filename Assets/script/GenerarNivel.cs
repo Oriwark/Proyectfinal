@@ -26,6 +26,18 @@ public class GenerarNivel : MonoBehaviour
 
     private void Update()
     {
+        if (jugador != null && puntoFinal != null)
+        {
+            if (Vector2.Distance(jugador.position, puntoFinal.position) < distanciaMinima)
+            {
+                GenerarParteNivel();
+            }
+        } 
+        else
+        {
+            Debug.LogError("jugador o puntoFinal no están asignados en el script GenerarNivel.");
+        }
+
         if (Vector2.Distance(jugador.position, puntoFinal.position) < distanciaMinima)
         {
             GenerarParteNivel();
