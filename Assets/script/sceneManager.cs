@@ -1,18 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement; // Importante para manejar escenas
+using UnityEngine.SceneManagement;
 
-public class ReiniciarAlTocar : MonoBehaviour
+public class ReiniciarNivel2D : MonoBehaviour
 {
-    private void OnTriggerEnter(Collider other)
-    {
-        Debug.Log("Colisión detectada con: " + other.gameObject.name); // Para depuración
+    [SerializeField] private string nombreEscena; // Nombre de la escena a cargar
 
-        if (other.CompareTag("Player")) // Verifica que sea el jugador
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player")) // Si el jugador toca la zona de reinicio
         {
-            Debug.Log("Reiniciando escena...");
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            Debug.Log("Jugador tocó el trigger. Reiniciando nivel...");
+            ReiniciarEscena();
         }
+    }
+
+    private void ReiniciarEscena()
+    {
+        string escena = string.IsNullOrEmpty(nombreEscena) ? SceneManager.GetActiveScene().name : nombreEscena;
+        SceneManager.LoadScene(escena);
     }
 }

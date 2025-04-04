@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class DestroyOnTrigger : MonoBehaviour
 {
-    void OnTriggerEnter2D(Collider2D other)
+    void OnCollisionEnter(Collision collision)
     {
-        if (other.CompareTag("Player"))  // Reemplaza "Enemy" con el tag que quieras detectar
+        if (collision.gameObject.CompareTag("ObjetoQueDestruye"))
         {
-            Destroy(other.gameObject); // Destruye el objeto con el que colisiona
+            Destroy(gameObject);
         }
     }
 }

@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -35,7 +35,7 @@ public class GenerarNivel : MonoBehaviour
         } 
         else
         {
-            Debug.LogError("jugador o puntoFinal no est�n asignados en el script GenerarNivel.");
+            Debug.LogError("jugador o puntoFinal no están asignados en el script GenerarNivel.");
         }
 
         if (Vector2.Distance(jugador.position, puntoFinal.position) < distanciaMinima)
@@ -64,4 +64,5 @@ public class GenerarNivel : MonoBehaviour
         }
         return punto;
     }
+
 }
