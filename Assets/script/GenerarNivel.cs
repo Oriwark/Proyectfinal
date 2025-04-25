@@ -22,7 +22,9 @@ public class GenerarNivel : MonoBehaviour
         {
             GenerarParteNivel();
         }
+
     }
+
 
     private void Update()
     {
@@ -64,5 +66,7 @@ public class GenerarNivel : MonoBehaviour
         }
         return punto;
     }
+
+   
 
 }
