@@ -9,9 +9,7 @@ public class PlayerJump : MonoBehaviour
     private int jumpsLeft;
 
     private Rigidbody2D rb;
-    private Animator anim;  // ? Agregamos el Animator
-    private bool isGrounded;
-    private bool isDoubleJumping; // ? Nueva variable para controlar la animación
+    private Animator anim;
 
     public Transform groundCheck;
     public float groundCheckRadius = 0.2f;
@@ -20,7 +18,7 @@ public class PlayerJump : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        anim = GetComponent<Animator>(); // ? Obtener el Animator
+        anim = GetComponent<Animator>();
         jumpsLeft = maxJumps;
     }
 
@@ -31,33 +29,39 @@ public class PlayerJump : MonoBehaviour
         if (Input.GetButtonDown("Jump") && jumpsLeft > 0)
         {
             Jump();
+
+            if (jumpsLeft == 0)
+            {
+                anim.SetTrigger("DoubleJump"); // Lanzar solo en el segundo salto
+            }
         }
 
-        // Actualizar el parámetro de animación
-        anim.SetBool("capi rayo", isDoubleJumping);
+
     }
 
     void Jump()
     {
-        rb.velocity = new Vector2(rb.velocity.x, 0);
+        rb.velocity = new Vector2(rb.velocity.x, 0); // Reinicia velocidad Y antes de saltar
         rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-        jumpsLeft--;
 
-        // Activamos la animación si es el segundo salto
-        if (jumpsLeft == 0)
+        if (jumpsLeft == 2)
         {
-            isDoubleJumping = true;
+            anim.SetTrigger("Jump");
         }
+        else if (jumpsLeft == 1)
+        {
+            anim.SetTrigger("DoubleJump");
+        }
+
+        jumpsLeft--;
     }
+
 
     void CheckGround()
     {
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
-
-        if (isGrounded)
+        if (Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer))
         {
             jumpsLeft = maxJumps;
-            isDoubleJumping = false; // Reseteamos la animación al tocar el suelo
         }
     }
 
